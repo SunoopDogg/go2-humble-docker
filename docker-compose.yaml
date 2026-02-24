@@ -1,9 +1,9 @@
 services:
   # ===== AMD64 =====
-  ros-humble-docker:
+  go2-humble-docker:
     build: .
     image: cuda12.9.1:humble-uv-nvm
-    container_name: ros-humble-docker
+    container_name: go2-humble-docker
     privileged: true
     tty: true
     network_mode: host
@@ -12,13 +12,13 @@ services:
       - DISPLAY=${DISPLAY:-host.docker.internal:0}
       - QT_X11_NO_MITSHM=1
     volumes:
-      - .:/root/ros-humble-docker
+      - .:/root/go2-humble-docker
       - /tmp/.X11-unix:/tmp/.X11-unix
 
-  ros-humble-docker-gpu:
+  go2-humble-docker-gpu:
     extends:
-      service: ros-humble-docker
-    container_name: ros-humble-docker-gpu
+      service: go2-humble-docker
+    container_name: go2-humble-docker-gpu
     deploy:
       resources:
         reservations:
@@ -30,12 +30,12 @@ services:
       - gpu
 
   # ===== Jetson ARM64 =====
-  ros-humble-docker-jetson:
+  go2-humble-docker-jetson:
     build:
       args:
         BASE_IMAGE: dustynv/cudnn:8.9-r36.2.0
     image: cudnn8.9-jetson:humble-uv-nvm
-    container_name: ros-humble-docker-jetson
+    container_name: go2-humble-docker-jetson
     runtime: nvidia
     privileged: true
     tty: true
@@ -46,7 +46,7 @@ services:
       - QT_X11_NO_MITSHM=1
       - XAUTHORITY=/root/.Xauthority
     volumes:
-      - .:/root/ros-humble-docker
+      - .:/root/go2-humble-docker
       - /tmp/.X11-unix:/tmp/.X11-unix
       - /tmp/argus_socket:/tmp/argus_socket
       - ~/.Xauthority:/root/.Xauthority
